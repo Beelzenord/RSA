@@ -40,6 +40,6 @@ public class RsaInstance {
     }
 
     public String getEncKey(){
-        return "" + e.toString() + " " + pq.toString();
+        return "" + e.toString() + "\n" + pq.toString() + "\n";
     }
 }

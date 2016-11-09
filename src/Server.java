@@ -22,7 +22,7 @@ public class Server {
             st.start();
             scan = new Scanner(peerConnectionSocket.getInputStream());
             String fromSocket;
-            pw.println(rsa.getEncKey());
+            pw.print(rsa.getEncKey());
             pw.flush();
             while ((fromSocket = scan.nextLine()) != null) {
                 System.out.println(fromSocket);
