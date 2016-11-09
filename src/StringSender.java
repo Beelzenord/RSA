@@ -13,7 +13,7 @@ public class StringSender implements Runnable {
 
     public void run() {
 	while (cont) {
-	    System.out.print("Send > ");
+	    System.out.print("Press Enter to Encrypt integer > ");
             String str = scan.nextLine();
 	    out.println(str);
             out.flush();
