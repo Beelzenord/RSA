@@ -33,5 +33,6 @@ public class RsaInstance {
     private void calculateD() {
         BigInteger p1q1 = p.subtract(new BigInteger("1"))
             .multiply(q.subtract(new BigInteger("1")));
+        d = e.modInverse(p1q1);
     }
 }
