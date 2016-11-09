@@ -7,6 +7,7 @@ public class RsaInstance {
     BigInteger q;
     BigInteger e;
     BigInteger d;
+    BigInteger pq;
     Random rng;
 
     public RsaInstance(int size) {
@@ -16,7 +17,7 @@ public class RsaInstance {
         rng = new Random();
         this.size = size;
         calculatePrimes();
-        BigInteger pq = p.multiply(q);
+        pq = p.multiply(q);
         calculateE();
         calculateD();
     }
@@ -25,14 +26,19 @@ public class RsaInstance {
         p = new BigInteger(size, 100, rng);
         q = new BigInteger(size, 100, rng);
     }
-
+    public BigInteger encrypteInt(BigInteger random){
+       return random.pow(e.intValue()).mod(pq);
+    }
     private void calculateE() {
         e = new BigInteger(size-1, 100, rng);
     }
-
+    
     private void calculateD() {
         BigInteger p1q1 = p.subtract(new BigInteger("1"))
             .multiply(q.subtract(new BigInteger("1")));
         d = e.modInverse(p1q1);
+    }
+     public String sendKey(){
+        return "Encryption key is : (" + e +", " + pq;
     }
 }
