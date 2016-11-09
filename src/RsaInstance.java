@@ -2,14 +2,14 @@ import java.util.*;
 import java.math.*;
 
 public class RsaInstance {
-    int size;
-    BigInteger p;
-    BigInteger q;
-    BigInteger e;
-    BigInteger d;
-    BigInteger pq;
-    Random rng;
-
+    private int size;
+    private BigInteger p;
+    private BigInteger q;
+    private BigInteger e;
+    private BigInteger d;
+    private BigInteger pq;
+    private Random rng;
+    
     public RsaInstance(int size) {
         if (size < 3) {
             throw new IllegalArgumentException("Size is too small");
