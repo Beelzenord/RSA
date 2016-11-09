@@ -19,6 +19,8 @@ public class RsaInstance {
         this.size = size;
         calculatePrimes();
         pq = p.multiply(q);
+        p1q1 = p.subtract(BigInteger.ONE)
+            .multiply(q.subtract(BigInteger.ONE));
         calculateE();
         calculateD();
     }
@@ -47,14 +49,11 @@ public class RsaInstance {
         e = eTemp.gcd(pq);
         }
     }
-    private BigInteger getNumberOfPrimes(){
-          p1q1 = p.subtract(BigInteger.ONE)
-            .multiply(q.subtract(BigInteger.ONE));
-         return p1q1;
-    }
+
     private void calculateD() {
         d = e.modInverse(p1q1);
     }
+
     public String getEncKey(){
         return "" + e.toString() + "\n" + pq.toString() + "\n";
     }
