@@ -38,7 +38,8 @@ public class RsaInstance {
             .multiply(q.subtract(new BigInteger("1")));
         d = e.modInverse(p1q1);
     }
-     public String sendKey(){
-        return "Encryption key is : (" + e +", " + pq;
+
+    public String getEncKey(){
+        return "" + e.toString() + " " + pq.toString();
     }
 }

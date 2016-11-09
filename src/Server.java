@@ -17,10 +17,13 @@ public class Server {
             System.out.println("Waiting for connection...");
             peerConnectionSocket = ss.accept();
 
-            st = new Thread(new StringSender(new PrintWriter(peerConnectionSocket.getOutputStream())));
+            PrintWriter pw = new PrintWriter(peerConnectionSocket.getOutputStream());
+            st = new Thread(new StringSender(pw));
             st.start();
             scan = new Scanner(peerConnectionSocket.getInputStream());
             String fromSocket;
+            pw.println(rsa.getEncKey());
+            pw.flush();
             while ((fromSocket = scan.nextLine()) != null) {
                 System.out.println(fromSocket);
             }
