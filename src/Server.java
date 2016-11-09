@@ -1,7 +1,6 @@
 import java.io.*;
 import java.net.*;
 import java.util.*;
-import java.math.*;
 
 public class Server {
     public static void main(String[] args) {
@@ -12,7 +11,7 @@ public class Server {
             System.err.println("Usage: Server <port> <keysize>");
             return;
         }
-        BigInteger[] primes = calculatePrimes();
+        RsaInstance rsa = new RsaInstance(Integer.parseInt(args[1]));
         try {
             ServerSocket ss = new ServerSocket(Integer.parseInt(args[0]));
             System.out.println("Waiting for connection...");
@@ -32,11 +31,5 @@ public class Server {
                 st.stop();
             }
         }
-    }
-
-    private static BigInteger[] calculatePrimes() {
-        BigInteger p = new BigInteger("5");
-        BigInteger q = new BigInteger("2");
-        return new BigInteger[] {p, q};
     }
 }
