@@ -11,6 +11,9 @@ public class Client {
             System.err.println("Usage: Client <address> <port>");
             return;
         }
+       long Encryptee = (long)(Math.random()*100) + 1;
+       BigInteger unCoded;
+       unCoded = BigInteger.valueOf(Encryptee);
         try {
             peerConnectionSocket = new Socket(args[0], Integer.parseInt(args[1]));
 
