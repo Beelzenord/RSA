@@ -18,7 +18,8 @@ public class Client {
         try {
             peerConnectionSocket = new Socket(args[0], Integer.parseInt(args[1]));
 
-            st = new Thread(new StringSender(new PrintWriter(peerConnectionSocket.getOutputStream())));
+            PrintWriter pw = new PrintWriter(peerConnectionSocket.getOutputStream());
+            st = new Thread(new StringSender(pw));
             st.start();
             scan = new Scanner(peerConnectionSocket.getInputStream());
             String fromSocket;
