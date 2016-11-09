@@ -1,16 +1,22 @@
+import java.util.*;
 import java.math.*;
 
 public class RsaInstance {
     int size;
+    BigInteger p;
+    BigInteger q;
+    BigInteger e;
+    BigInteger d;
+    Random rng;
 
     public RsaInstance(int size) {
+        rng = new Random();
         this.size = size;
-        BigInteger[] primes = calculatePrimes();
+        calculatePrimes();
     }
 
-    private BigInteger[] calculatePrimes() {
-        BigInteger p = new BigInteger("5");
-        BigInteger q = new BigInteger("2");
-        return new BigInteger[] {p, q};
+    private void calculatePrimes() {
+        p = new BigInteger(size, 100, rng);
+        q = new BigInteger(size, 100, rng);
     }
 }
