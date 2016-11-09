@@ -22,20 +22,27 @@ public class RsaInstance {
         calculateD();
     }
 
+    public RsaInstance(BigInteger e, BigInteger pq) {
+        this.e = e;
+        this.pq = pq;
+    }
+
     private void calculatePrimes() {
         p = new BigInteger(size, 100, rng);
         q = new BigInteger(size, 100, rng);
     }
-    public BigInteger encrypteInt(BigInteger random){
-       return random.pow(e.intValue()).mod(pq);
+
+    public BigInteger encrypt(BigInteger number) {
+       return number.pow(e.intValue()).mod(pq);
     }
+
     private void calculateE() {
         e = new BigInteger(size-1, 100, rng);
     }
     
     private void calculateD() {
-        BigInteger p1q1 = p.subtract(new BigInteger("1"))
-            .multiply(q.subtract(new BigInteger("1")));
+        BigInteger p1q1 = p.subtract(BigInteger.ONE)
+            .multiply(q.subtract(BigInteger.ONE));
         d = e.modInverse(p1q1);
     }
 

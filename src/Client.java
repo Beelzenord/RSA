@@ -23,6 +23,13 @@ public class Client {
             st.start();
             scan = new Scanner(peerConnectionSocket.getInputStream());
             String fromSocket;
+            BigInteger keyE = new BigInteger(scan.nextLine());
+            BigInteger keyPQ = new BigInteger(scan.nextLine());
+            RsaInstance rsa = new RsaInstance(keyE, keyPQ);
+            System.err.println(keyE.toString());
+            BigInteger encrypted = rsa.encrypt(unCoded);
+            pw.print(unCoded.toString());
+            pw.flush();
             while ((fromSocket = scan.nextLine()) != null) {
                 System.out.println(fromSocket);
             }
