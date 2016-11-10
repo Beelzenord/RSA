@@ -12,24 +12,26 @@ public class Client {
             System.err.println("Usage: Client <address> <port>");
             return;
         }
-       long Encryptee = (long)(Math.random()*100) + 1;
-       BigInteger unCoded;
-       unCoded = BigInteger.valueOf(Encryptee);
+        BigInteger unCoded = BigInteger.valueOf((int)(Math.random()*100) + 1);
         try {
             peerConnectionSocket = new Socket(args[0], Integer.parseInt(args[1]));
 
             PrintWriter pw = new PrintWriter(peerConnectionSocket.getOutputStream());
             st = new Thread(new StringSender(pw));
-            st.start();
+            //st.start();
             scan = new Scanner(peerConnectionSocket.getInputStream());
-            String fromSocket;
+            System.out.println("Secret number = " + unCoded.intValue());
+            System.out.println("Waiting for key...");
             BigInteger keyE = new BigInteger(scan.nextLine());
             BigInteger keyPQ = new BigInteger(scan.nextLine());
             RsaInstance rsa = new RsaInstance(keyE, keyPQ);
-            System.err.println(keyE.toString());
+            System.out.println("e = " + keyE.toString());
+            System.out.println("pq = " + keyPQ.toString());
             BigInteger encrypted = rsa.encrypt(unCoded);
+            System.out.println("Encrypted number = " + encrypted.toString());
             pw.print(unCoded.toString());
             pw.flush();
+            String fromSocket;
             while ((fromSocket = scan.nextLine()) != null) {
                 System.out.println(fromSocket);
             }
