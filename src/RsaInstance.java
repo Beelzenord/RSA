@@ -29,19 +29,11 @@ public class RsaInstance {
 
     private void calculatePrimes() {
         BigInteger p, q;
-        do {
-            p = new BigInteger(size, 100, rng);
-        } while (!isPrime(p));
-        do {
-            q = new BigInteger(size, 100, rng);
-        } while (!isPrime(q));
+        p = new BigInteger(size, 100, rng);
+        q = new BigInteger(size, 100, rng);
         pq = p.multiply(q);
         p1q1 = p.subtract(BigInteger.ONE)
             .multiply(q.subtract(BigInteger.ONE));
-    }
-
-    private boolean isPrime(BigInteger number) {
-        return true;
     }
 
     public BigInteger encrypt(BigInteger number) {
