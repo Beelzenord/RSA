@@ -12,7 +12,7 @@ public class RsaInstance {
     private BigInteger p1q1;
     
     public RsaInstance(int size) {
-        if (size <= 20) {
+        if (size < 3) {
             throw new IllegalArgumentException("Size is too small");
         }
         rng = new Random();
@@ -29,19 +29,11 @@ public class RsaInstance {
 
     private void calculatePrimes() {
         BigInteger p, q;
-        do {
-            p = new BigInteger(size, 100, rng);
-        } while (!isPrime(p));
-        do {
-            q = new BigInteger(size, 100, rng);
-        } while (!isPrime(q));
+        p = new BigInteger(size, 100, rng);
+        q = new BigInteger(size, 100, rng);
         pq = p.multiply(q);
         p1q1 = p.subtract(BigInteger.ONE)
             .multiply(q.subtract(BigInteger.ONE));
-    }
-
-    private boolean isPrime(BigInteger number) {
-        return true;
     }
 
     public BigInteger encrypt(BigInteger number) {
@@ -55,7 +47,7 @@ public class RsaInstance {
     private void calculateE() {
         BigInteger eTemp;
         do {
-            eTemp = new BigInteger(20, rng);
+            eTemp = new BigInteger(size - 1, rng);
         } while (!eTemp.gcd(p1q1).equals(BigInteger.ONE)
                  || eTemp.equals(BigInteger.ZERO));
         e = eTemp;
