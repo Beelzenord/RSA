@@ -13,10 +13,11 @@ public class Client {
             return;
         }
         BigInteger unCoded = BigInteger.valueOf((int)(Math.random()*100) + 1);
+        PrintWriter pw = null;
         try {
             peerConnectionSocket = new Socket(args[0], Integer.parseInt(args[1]));
 
-            PrintWriter pw = new PrintWriter(peerConnectionSocket.getOutputStream());
+            pw = new PrintWriter(peerConnectionSocket.getOutputStream());
             st = new Thread(new StringSender(pw));
             //st.start();
             scan = new Scanner(peerConnectionSocket.getInputStream());
@@ -32,12 +33,12 @@ public class Client {
             pw.println(unCoded.toString());
             pw.flush();
             String fromSocket;
-            while ((fromSocket = scan.nextLine()) != null) {
-                System.out.println(fromSocket);
-            }
         } catch (IOException e) {
             System.err.println(e.getMessage());
         } finally {
+            if (pw != null) {
+                pw.close();
+            }
             if (st != null) {
                 st.stop();
             }
