@@ -31,6 +31,7 @@ public class Server {
             pw.flush();
             System.out.println("Reading encrypted number...");
             BigInteger encryptedNumber = new BigInteger(scan.nextLine());
+            System.out.println("Encrypted number = " + encryptedNumber.toString());
             System.out.println("Decrypting number...");
             BigInteger decryptedNumber = rsa.decrypt(encryptedNumber);
             System.out.println("Secret number = " + decryptedNumber.toString());

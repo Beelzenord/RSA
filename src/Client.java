@@ -30,7 +30,7 @@ public class Client {
             System.out.println("pq = " + keyPQ.toString());
             BigInteger encrypted = rsa.encrypt(unCoded);
             System.out.println("Encrypted number = " + encrypted.toString());
-            pw.println(unCoded.toString());
+            pw.println(encrypted.toString());
             pw.flush();
             String fromSocket;
         } catch (IOException e) {
