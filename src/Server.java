@@ -32,8 +32,8 @@ public class Server {
             System.out.println("Reading encrypted number...");
             BigInteger encryptedNumber = new BigInteger(scan.nextLine());
             System.out.println("Decrypting number...");
-            int decryptedNumber = rsa.decrypt(encryptedNumber);
-            System.out.println("Secret number = " + decryptedNumber);
+            BigInteger decryptedNumber = rsa.decrypt(encryptedNumber);
+            System.out.println("Secret number = " + decryptedNumber.toString());
         } catch (IOException e) {
             System.err.println(e.getMessage());
         } finally {

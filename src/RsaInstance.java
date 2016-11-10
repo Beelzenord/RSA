@@ -45,11 +45,11 @@ public class RsaInstance {
     }
 
     public BigInteger encrypt(BigInteger number) {
-       return number.pow(e.intValue()).mod(pq);
+        return number.modPow(e, pq);
     }
 
-    public int decrypt(BigInteger number) {
-        return number.pow(d.intValue()).mod(pq).intValue();
+    public BigInteger decrypt(BigInteger number) {
+        return number.modPow(d, pq);
     }
 
     private void calculateE() {
