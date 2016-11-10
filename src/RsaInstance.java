@@ -48,20 +48,32 @@ public class RsaInstance {
        return number.pow(e.intValue()).mod(pq);
     }
 
-     private void calculateE() {
-         BigInteger eTemp;
-         do {
-             eTemp = new BigInteger(20, rng);
-         } while (!eTemp.gcd(p1q1).equals(BigInteger.ONE)
-                  || eTemp.equals(BigInteger.ZERO));
-         e = eTemp;
+    public int decrypt(BigInteger number) {
+        return number.pow(d.intValue()).mod(pq).intValue();
+    }
+
+    private void calculateE() {
+        BigInteger eTemp;
+        do {
+            eTemp = new BigInteger(20, rng);
+        } while (!eTemp.gcd(p1q1).equals(BigInteger.ONE)
+                 || eTemp.equals(BigInteger.ZERO));
+        e = eTemp;
     }
 
     private void calculateD() {
         d = e.modInverse(p1q1);
     }
 
-    public String getEncKey(){
-        return "" + e.toString() + "\n" + pq.toString() + "\n";
+    public String getEString(){
+        return e.toString();
+    }
+
+    public String getPQString() {
+        return pq.toString();
+    }
+
+    public String getDString() {
+        return d.toString();
     }
 }

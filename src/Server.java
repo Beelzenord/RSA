@@ -1,6 +1,7 @@
 import java.io.*;
 import java.net.*;
 import java.util.*;
+import java.math.*;
 
 public class Server {
     public static void main(String[] args) {
@@ -12,6 +13,9 @@ public class Server {
             return;
         }
         RsaInstance rsa = new RsaInstance(Integer.parseInt(args[1]));
+        System.out.println("pq = " + rsa.getPQString());
+        System.out.println("e = " + rsa.getEString());
+        System.out.println("d = " + rsa.getDString());
         try {
             ServerSocket ss = new ServerSocket(Integer.parseInt(args[0]));
             System.out.println("Waiting for connection...");
@@ -19,11 +23,16 @@ public class Server {
 
             PrintWriter pw = new PrintWriter(peerConnectionSocket.getOutputStream());
             st = new Thread(new StringSender(pw));
-            st.start();
+            //st.start();
             scan = new Scanner(peerConnectionSocket.getInputStream());
             String fromSocket;
-            pw.print(rsa.getEncKey());
+            pw.println(rsa.getEString() + "\n" + rsa.getPQString());
             pw.flush();
+            System.out.println("Reading encrypted number...");
+            BigInteger encryptedNumber = new BigInteger(scan.nextLine());
+            System.out.println("Decrypting number...");
+            int decryptedNumber = rsa.decrypt(encryptedNumber);
+            System.out.println("Secret number = " + decryptedNumber);
             while ((fromSocket = scan.nextLine()) != null) {
                 System.out.println(fromSocket);
             }
