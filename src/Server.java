@@ -8,6 +8,7 @@ public class Server {
 	Scanner scan;
         Thread st = null;
 	Socket peerConnectionSocket = null;
+	int proceed ;
         if (args.length != 2) {
             System.err.println("Usage: Server <port> <keysize>");
             return;
@@ -28,13 +29,28 @@ public class Server {
             scan = new Scanner(peerConnectionSocket.getInputStream());
             String fromSocket;
             pw.println(rsa.getEString() + "\n" + rsa.getPQString());
-            pw.flush();
+	     pw.flush();
             System.out.println("Reading encrypted number...");
             BigInteger encryptedNumber = new BigInteger(scan.nextLine());
             System.out.println("Encrypted number = " + encryptedNumber.toString());
             System.out.println("Decrypting number...");
             BigInteger decryptedNumber = rsa.decrypt(encryptedNumber);
             System.out.println("Secret number = " + decryptedNumber.toString());
+            proceed = Integer.parseInt(scan.nextLine());
+            System.out.println("proceeding: "+ proceed);
+            while(proceed==1){
+            
+              System.out.println("Reading encrypted number...");
+              encryptedNumber = new BigInteger(scan.nextLine());
+              System.out.println("Encrypted number = " + encryptedNumber.toString());
+              System.out.println("Decrypting number...");
+              decryptedNumber = rsa.decrypt(encryptedNumber);
+              System.out.println("Secret number = " + decryptedNumber.toString());
+
+              proceed = Integer.parseInt(scan.nextLine());
+              System.out.println("proceeding: "+ proceed);
+            }
+            
         } catch (IOException e) {
             System.err.println(e.getMessage());
         } finally {
