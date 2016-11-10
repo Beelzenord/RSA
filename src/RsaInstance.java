@@ -40,7 +40,7 @@ public class RsaInstance {
             .multiply(q.subtract(BigInteger.ONE));
     }
 
-    private boolean isPrime(BigInteger i) {
+    private boolean isPrime(BigInteger number) {
         return true;
     }
 
