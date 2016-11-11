@@ -8,6 +8,8 @@ public class Alice {
 	Scanner scan;
 	Socket peerConnectionSocket = null;
 	int proceed ;
+        boolean itReceived = false;
+        BigInteger Confirmer;
         if (args.length != 2) {
             System.err.println("Usage: Server <port> <keysize>");
             return;
@@ -41,10 +43,28 @@ public class Alice {
             System.out.println("Decoded is sent...");
             pw.println(sizeOfKey);
             pw.flush();
+            itReceived = Boolean.parseBoolean(scan.nextLine());
+            if(itReceived){
+		System.out.println("Ready to process reverse keys");
+                BigInteger reverseE = new BigInteger(scan.nextLine());
+                BigInteger reversePQ = new BigInteger(scan.nextLine());
+                RsaInstance rsaReverse = new RsaInstance(reverseE, reversePQ);
+                System.out.println("Done so far");
+                Confirmer = BigInteger.valueOf((int)(Math.random()*100) + 1);
+                System.out.println("Secret number: " + Confirmer.intValue());
+                BigInteger reverseEncrypted =  rsaReverse.encrypt(Confirmer);
+                System.out.println("Alice's encrypted number :" + reverseEncrypted.toString());
+	       
+                pw.println(reverseEncrypted.toString());
+                pw.flush();
+                BigInteger keyFinalised = new BigInteger(scan.nextLine());
+                if(keyFinalised.equals(Confirmer))System.out.println("Secure!");
+                
+            }
 	    //  pw.println();
             proceed = Integer.parseInt(scan.nextLine());
             System.out.println("proceeding: "+ proceed);
-            while (proceed == 1) {
+	    /*  while (proceed == 1) {
                 System.out.println("Reading encrypted number..");
                 encryptedNumber = new BigInteger(scan.nextLine());
                 System.out.println("Encrypted number = " + encryptedNumber.toString());
@@ -54,7 +74,7 @@ public class Alice {
               
                 proceed = Integer.parseInt(scan.nextLine());
                 System.out.println("proceeding: "+ proceed);
-		}
+		}*/
             
         } catch (IOException e) {
             System.err.println(e.getMessage());

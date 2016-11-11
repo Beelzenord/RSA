@@ -33,22 +33,35 @@ public class Bob {
             pw.flush();
             pw.println(encrypted.toString());
             pw.flush();
-	      Decrypted = new BigInteger(scan.nextLine());
+	    Decrypted = new BigInteger(scan.nextLine());
 	       if(Decrypted.equals(unCoded)) {  
 		System.out.println("There is a match");
                 int keySize = Integer.parseInt(scan.nextLine());
+                boolean send = true;
+                pw.println(send);
+                pw.flush();
                 System.out.println("The key size is " + keySize);
                 RsaInstance reverseRSA = new RsaInstance(keySize);
                 System.out.println("pq = " + reverseRSA.getPQString());
                 System.out.println("e = " +  reverseRSA.getEString());
                 System.out.println("d = " +  reverseRSA.getDString());
-		}
+                pw.println(reverseRSA.getEString() + "\n" + reverseRSA.getPQString());
+                pw.flush();
+                System.out.println("Recieved encryption: ");
+                BigInteger confirmationEncrypt = new BigInteger(scan.nextLine());
+                System.out.println("Bob's encrypted number: " + confirmationEncrypt.toString());
+                BigInteger confirmationDecrypt = reverseRSA.decrypt(confirmationEncrypt);
+                System.out.println("decrypting...");
+                System.out.println("Alice's secret number: " + confirmationDecrypt.toString());
+                pw.println(confirmationDecrypt.toString());
+                pw.flush(); 
+	 	}
 
 	    //   pw.flush();  
             System.out.println("Proceed? 1-yes, 0-no");
             proceed = Integer.parseInt(keyBoard.nextLine());
             pw.println(proceed);
-            while (proceed == 1) {
+	    /*        while (proceed == 1) {
                 unCoded = BigInteger.valueOf((int)(Math.random()*100) + 1);
                 encrypted = rsa.encrypt(unCoded);
                 System.out.println("Encrypted number = " + encrypted.toString());
@@ -61,7 +74,7 @@ public class Bob {
                 proceed=Integer.parseInt(keyBoard.nextLine());
                 pw.println(proceed);
                 pw.flush();
-            }
+		}*/
         } catch (IOException e) {
             System.err.println(e.getMessage());
         } finally {
