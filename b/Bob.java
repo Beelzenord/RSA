@@ -30,21 +30,20 @@ public class Bob {
             System.out.println("pq = " + keyPQ.toString());
             BigInteger encrypted = rsa.encrypt(unCoded);
             System.out.println("Encrypted number = " + encrypted.toString());
-            pw.flush();
             pw.println(encrypted.toString());
             pw.flush();
-	      Decrypted = new BigInteger(scan.nextLine());
-	       if(Decrypted.equals(unCoded)) {  
-		System.out.println("There is a match");
-                int keySize = Integer.parseInt(scan.nextLine());
-                System.out.println("The key size is " + keySize);
-                RsaInstance reverseRSA = new RsaInstance(keySize);
-                System.out.println("pq = " + reverseRSA.getPQString());
-                System.out.println("e = " +  reverseRSA.getEString());
-                System.out.println("d = " +  reverseRSA.getDString());
-		}
+            Decrypted = new BigInteger(scan.nextLine());
+            if (!Decrypted.equals(unCoded)) {
+                System.out.println("Secret number doesn't match!");
+                return;
+            }
+            int keySize = Integer.parseInt(scan.nextLine());
+            System.out.println("The key size is " + keySize);
+            RsaInstance reverseRSA = new RsaInstance(keySize);
+            System.out.println("pq = " + reverseRSA.getPQString());
+            System.out.println("e = " +  reverseRSA.getEString());
+            System.out.println("d = " +  reverseRSA.getDString());
 
-	    //   pw.flush();  
             System.out.println("Proceed? 1-yes, 0-no");
             proceed = Integer.parseInt(keyBoard.nextLine());
             pw.println(proceed);
