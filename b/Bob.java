@@ -37,40 +37,48 @@ public class Bob {
 
     private static void doEverythingOnce(PrintWriter pw, Scanner scan) {
         BigInteger decrypted;
-        BigInteger unCoded = BigInteger.valueOf((int)(Math.random()*100) + 1);
-        System.out.println("Secret number = " + unCoded.intValue());
-        System.out.println("Waiting for key...");
+        System.out.println("Waiting for Alice's key...");
         BigInteger keyE = new BigInteger(scan.nextLine());
         BigInteger keyPQ = new BigInteger(scan.nextLine());
+        System.out.println("Alice's e = " + keyE.toString());
+        System.out.println("Alice's pq = " + keyPQ.toString());
         RsaInstance rsa = new RsaInstance(keyE, keyPQ);
-        System.out.println("e = " + keyE.toString());
-        System.out.println("pq = " + keyPQ.toString());
+        System.out.println("Creating a secret number...");
+        BigInteger unCoded = BigInteger.valueOf((int)(Math.random()*100) + 1);
+        System.out.println("My secret number = " + unCoded.intValue());
+        System.out.println("Encrypting my secret number...");
         BigInteger encrypted = rsa.encrypt(unCoded);
-        System.out.println("Encrypted number = " + encrypted.toString());
+        System.out.println("My encrypted secret number = " + encrypted.toString());
+        System.out.println("Sending encrypted number to Alice...");
         pw.println(encrypted.toString());
         pw.flush();
+        System.out.println("Waiting for Alice to decrypt my secret number...");
         decrypted = new BigInteger(scan.nextLine());
-        if (decrypted.equals(unCoded)) {
-            System.out.println("There is a match");
-            int keySize = Integer.parseInt(scan.nextLine());
-            boolean send = true;
-            pw.println(send);
-            pw.flush();
-            System.out.println("The key size is " + keySize);
-            RsaInstance reverseRSA = new RsaInstance(keySize);
-            System.out.println("pq = " + reverseRSA.getPQString());
-            System.out.println("e = " +  reverseRSA.getEString());
-            System.out.println("d = " +  reverseRSA.getDString());
-            pw.println(reverseRSA.getEString() + "\n" + reverseRSA.getPQString());
-            pw.flush();
-            System.out.println("Recieved encryption: ");
-            BigInteger confirmationEncrypt = new BigInteger(scan.nextLine());
-            System.out.println("Bob's encrypted number: " + confirmationEncrypt.toString());
-            BigInteger confirmationDecrypt = reverseRSA.decrypt(confirmationEncrypt);
-            System.out.println("decrypting...");
-            System.out.println("Alice's secret number: " + confirmationDecrypt.toString());
-            pw.println(confirmationDecrypt.toString());
-            pw.flush(); 
+        if (!decrypted.equals(unCoded)) {
+            System.out.println("Alice could not decrypt. Connection is NOT secure!");
+            return;
         }
+        System.out.println("Connection is secure!");
+        int keySize = Integer.parseInt(scan.nextLine());
+        boolean send = true;
+        pw.println(send);
+        pw.flush();
+        System.out.println("The key size is " + keySize);
+        RsaInstance reverseRSA = new RsaInstance(keySize);
+        System.out.println("My pq = " + reverseRSA.getPQString());
+        System.out.println("My e = " +  reverseRSA.getEString());
+        System.out.println("My d = " +  reverseRSA.getDString());
+        System.out.println("Sending my key...");
+        pw.println(reverseRSA.getEString());
+        pw.println(reverseRSA.getPQString());
+        pw.flush();
+        System.out.println("Reading Alice's encrypted number...");
+        BigInteger confirmationEncrypt = new BigInteger(scan.nextLine());
+        System.out.println("Alice's encrypted number = " + confirmationEncrypt.toString());
+        BigInteger confirmationDecrypt = reverseRSA.decrypt(confirmationEncrypt);
+        System.out.println("Decrypting Alice's number...");
+        System.out.println("Alice's secret number = " + confirmationDecrypt.toString());
+        pw.println(confirmationDecrypt.toString());
+        pw.flush(); 
     }
 }
