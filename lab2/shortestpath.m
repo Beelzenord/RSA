@@ -40,7 +40,7 @@ function retval = shortestpath(t, v1, v2)
   visited(v1) = true;
   distances(v1) = 0;
   current = v1;
-  path = [v1];
+  path = [];
   while (current < Inf && !visited(v2))
     for neighbor = 1:size(tree, 1)
       if (visited(neighbor) || cost_of_edge(current, neighbor) == 0)
@@ -56,11 +56,10 @@ function retval = shortestpath(t, v1, v2)
     current = smallest_unvisited();
   endwhile
   n = v2;
-  while (n != v1)
-    n
+  while (n != -1)
+    path = [n path];
     n = shortest_from(n);
   endwhile
-  shortest_from
   retval = path;
 endfunction
 
